@@ -204,6 +204,7 @@ dev = [
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "ruff" },
+    { name = "scikit-learn" },
 ]
 serve = [
     { name = "chromadb" },
@@ -261,6 +262,7 @@ dev = [
     { name = "pytest", specifier = "==8.3.4" },
     { name = "pytest-cov", specifier = "==6.0.0" },
     { name = "ruff", specifier = "==0.17.1" },
+    { name = "scikit-learn", specifier = "==1.5.2" },
 ]
 serve = [
     { name = "chromadb", specifier = "==0.6.3" },

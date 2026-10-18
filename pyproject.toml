@@ -71,6 +71,7 @@ dev = [
     "pre-commit==4.0.1",
     "pandas==2.2.3",
     "pyarrow==18.1.0",
+    "scikit-learn==1.5.2",
 ]
 
 [tool.uv]

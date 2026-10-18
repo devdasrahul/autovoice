@@ -1,0 +1,58 @@
+{
+  "model_type": "tfidf_logreg_baseline",
+  "test_samples": 38,
+  "classes": [
+    "LOW",
+    "MEDIUM",
+    "HIGH"
+  ],
+  "macro_f1": 0.3148148148148148,
+  "weighted_f1": 0.8450292397660818,
+  "accuracy": 0.8947368421052632,
+  "mean_confidence": 0.5833383880062065,
+  "per_class": {
+    "LOW": {
+      "precision": 0.8947368421052632,
+      "recall": 1.0,
+      "f1_score": 0.9444444444444444,
+      "support": 34
+    },
+    "MEDIUM": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "support": 1
+    },
+    "HIGH": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "support": 3
+    }
+  },
+  "confusion_matrix": {
+    "labels": [
+      "LOW",
+      "MEDIUM",
+      "HIGH"
+    ],
+    "matrix": [
+      [
+        34,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        3,
+        0,
+        0
+      ]
+    ]
+  },
+  "calibration_notes": "Model is calibrated using class-weighted balanced logistic regression to account for severe NHTSA indicator class imbalance."
+}
