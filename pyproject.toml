@@ -80,7 +80,7 @@ environments = ["sys_platform == 'linux'", "sys_platform == 'darwin'", "sys_plat
 
 [tool.uv.sources]
 torch = [
-    { index = "pytorch-cpu", group = "serve", marker = "sys_platform == 'linux'" },
+    { index = "pytorch-cpu", marker = "sys_platform == 'linux'" },
 ]
 
 [[tool.uv.index]]
