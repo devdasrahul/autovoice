@@ -1,0 +1,20 @@
+{
+  "hardware": "Intel64 Family 6 Model 142 Stepping 12, GenuineIntel (AMD64)",
+  "device": "cpu",
+  "batch_size": 1,
+  "sample_sequence_word_count": 27,
+  "sample_sequence_char_length": 167,
+  "num_iterations": 50,
+  "ner_distilbert": {
+    "p50_ms": 0.91,
+    "p95_ms": 1.9,
+    "mean_ms": 1.06,
+    "min_ms": 0.75,
+    "max_ms": 2.17
+  },
+  "severity_classifier": {
+    "p50_ms": 2.69,
+    "p95_ms": 5.04,
+    "mean_ms": 2.9
+  }
+}
