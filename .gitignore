@@ -32,6 +32,8 @@ models/
 *.safetensors
 *.onnx
 *.ckpt
+*.zip
+*.tar.gz
 
 # Keep the small labeled gold set committed:
 !data/labeled/*.jsonl

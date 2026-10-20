@@ -83,8 +83,8 @@ All metrics below are strictly reproduced from test outputs stored in [`reports/
 
 ### 1. Installation & Environment
 ```bash
-git clone https://github.com/your-username/AutoVoice.git
-cd AutoVoice
+git clone https://github.com/devdasrahul/autovoice.git
+cd autovoice
 
 # Install dependencies using uv
 make install

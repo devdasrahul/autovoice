@@ -53,7 +53,7 @@ eda_cells = [
     make_md_cell(
         [
             "# AutoVoice: Exploratory Data Analysis (NHTSA Complaints)\n",
-            "[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/your-repo/AutoVoice/blob/main/notebooks/01_eda.ipynb)\n\n",
+            "[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/devdasrahul/autovoice/blob/main/notebooks/01_eda.ipynb)\n\n",
             "This notebook inspects public NHTSA safety defect complaint records, calculates length distributions, ",
             "evaluates component/make frequencies, and analyzes physical hazard indicators.\n\n",
             "**Google Colab Ready:**\n",
@@ -223,7 +223,7 @@ ner_cells = [
     make_md_cell(
         [
             "# AutoVoice: Train DistilBERT Token Classification (NER) on GPU\n",
-            "[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/your-repo/AutoVoice/blob/main/notebooks/02_train_ner_colab.ipynb)\n\n",
+            "[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/devdasrahul/autovoice/blob/main/notebooks/02_train_ner_colab.ipynb)\n\n",
             "This notebook fine-tunes `distilbert-base-uncased` for sequence token labeling to extract:\n",
             "- `COMPONENT`: Automotive subsystems and parts (e.g. *steering rack*, *master cylinder*, *airbag*)\n",
             "- `SYMPTOM`: Failure behaviors and defects (e.g. *stalled*, *leaking fluid*, *smoke*, *locked up*)\n\n",
@@ -497,7 +497,7 @@ clf_cells = [
     make_md_cell(
         [
             "# AutoVoice: Train Severity Classifier (Triage Prioritization)\n",
-            "[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/your-repo/AutoVoice/blob/main/notebooks/03_train_classifier_colab.ipynb)\n\n",
+            "[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/devdasrahul/autovoice/blob/main/notebooks/03_train_classifier_colab.ipynb)\n\n",
             "This notebook trains the AutoVoice triage severity classifier on NHTSA complaint narratives.\n",
             "- **Architecture:** Sublinear TF-IDF (1-2 word n-grams) + Class-Weighted Logistic Regression (`class_weight='balanced'`)\n",
             "- **Proxy Severity Labels:** Derived strictly from objective indicator fields (`deaths`, `injured`, `fire`, `crash`) with zero narrative text leakage.\n",
