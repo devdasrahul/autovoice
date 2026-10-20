@@ -1,0 +1,10 @@
+{
+  "evaluation_dataset": "tests\\data\\rag_eval.jsonl",
+  "total_questions": 32,
+  "intent_routing_accuracy": 0.9375,
+  "refusal_precision": 0.8571,
+  "citation_validity_rate": 1.0,
+  "retrieval_hit_rate_at_5": 1.0,
+  "llm_provider_tested": "none (extractive)",
+  "groundedness_policy": "Zero external API dependency; pure deterministic retrieval & whitelisted SQL aggregation"
+}

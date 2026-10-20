@@ -1,0 +1,99 @@
+steps:
+  # 1. Build API container image
+  - name: "gcr.io/cloud-builders/docker"
+    id: "build-api"
+    args:
+      - "build"
+      - "-t"
+      - "us-central1-docker.pkg.dev/$PROJECT_ID/autovoice-repo/autovoice-api:$COMMIT_SHA"
+      - "-t"
+      - "us-central1-docker.pkg.dev/$PROJECT_ID/autovoice-repo/autovoice-api:latest"
+      - "-f"
+      - "Dockerfile"
+      - "."
+
+  # 2. Build UI container image
+  - name: "gcr.io/cloud-builders/docker"
+    id: "build-ui"
+    args:
+      - "build"
+      - "-t"
+      - "us-central1-docker.pkg.dev/$PROJECT_ID/autovoice-repo/autovoice-ui:$COMMIT_SHA"
+      - "-t"
+      - "us-central1-docker.pkg.dev/$PROJECT_ID/autovoice-repo/autovoice-ui:latest"
+      - "-f"
+      - "Dockerfile.ui"
+      - "."
+
+  # 3. Push API images to Artifact Registry
+  - name: "gcr.io/cloud-builders/docker"
+    id: "push-api"
+    args:
+      - "push"
+      - "us-central1-docker.pkg.dev/$PROJECT_ID/autovoice-repo/autovoice-api:$COMMIT_SHA"
+
+  # 4. Push UI images to Artifact Registry
+  - name: "gcr.io/cloud-builders/docker"
+    id: "push-ui"
+    args:
+      - "push"
+      - "us-central1-docker.pkg.dev/$PROJECT_ID/autovoice-repo/autovoice-ui:$COMMIT_SHA"
+
+  # 5. Deploy API to Cloud Run (Always Free Tier settings)
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    id: "deploy-api"
+    entrypoint: "gcloud"
+    args:
+      - "run"
+      - "deploy"
+      - "autovoice-api"
+      - "--image"
+      - "us-central1-docker.pkg.dev/$PROJECT_ID/autovoice-repo/autovoice-api:$COMMIT_SHA"
+      - "--region"
+      - "us-central1"
+      - "--platform"
+      - "managed"
+      - "--allow-unauthenticated"
+      - "--min-instances"
+      - "0"
+      - "--max-instances"
+      - "2"
+      - "--cpu"
+      - "1"
+      - "--memory"
+      - "1Gi"
+      - "--timeout"
+      - "60"
+
+  # 6. Deploy UI to Cloud Run
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    id: "deploy-ui"
+    entrypoint: "gcloud"
+    args:
+      - "run"
+      - "deploy"
+      - "autovoice-ui"
+      - "--image"
+      - "us-central1-docker.pkg.dev/$PROJECT_ID/autovoice-repo/autovoice-ui:$COMMIT_SHA"
+      - "--region"
+      - "us-central1"
+      - "--platform"
+      - "managed"
+      - "--allow-unauthenticated"
+      - "--min-instances"
+      - "0"
+      - "--max-instances"
+      - "2"
+      - "--cpu"
+      - "1"
+      - "--memory"
+      - "1Gi"
+      - "--timeout"
+      - "120"
+
+images:
+  - "us-central1-docker.pkg.dev/$PROJECT_ID/autovoice-repo/autovoice-api:$COMMIT_SHA"
+  - "us-central1-docker.pkg.dev/$PROJECT_ID/autovoice-repo/autovoice-ui:$COMMIT_SHA"
+
+options:
+  logging: CLOUD_LOGGING_ONLY

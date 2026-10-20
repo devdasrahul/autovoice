@@ -1,0 +1,32 @@
+{"question": "How many complaints are recorded for Ford vehicles?", "expected_intent": "stats_aggregate", "expected_make": "FORD"}
+{"question": "What are the top component failures reported for Tesla?", "expected_intent": "stats_aggregate", "expected_make": "TESLA"}
+{"question": "How many Toyota complaints involved a fire or smoke?", "expected_intent": "stats_aggregate", "expected_make": "TOYOTA"}
+{"question": "What is the count of crash complaints for Chevrolet?", "expected_intent": "stats_aggregate", "expected_make": "CHEVROLET"}
+{"question": "Which component has the highest complaint frequency in Honda?", "expected_intent": "stats_aggregate", "expected_make": "HONDA"}
+{"question": "How many total complaints exist in the dataset?", "expected_intent": "stats_aggregate", "expected_make": null}
+{"question": "What is the distribution of steering issues across makes?", "expected_intent": "stats_aggregate", "expected_make": null}
+{"question": "Did any Hyundai Tucson complaints involve air bags?", "expected_intent": "stats_aggregate", "expected_make": "HYUNDAI"}
+{"question": "How many Nissan Rogue complaints were filed in 2021?", "expected_intent": "stats_aggregate", "expected_make": "NISSAN"}
+{"question": "What are the most frequent component defects for Subaru?", "expected_intent": "stats_aggregate", "expected_make": "SUBARU"}
+{"question": "Why did the electronic power steering rack lock up on the highway?", "expected_intent": "semantic_search", "expected_make": "FORD"}
+{"question": "Are there reports of phantom braking with automatic emergency braking?", "expected_intent": "semantic_search", "expected_make": "TESLA"}
+{"question": "Did the high-voltage lithium battery pack catch fire while parked?", "expected_intent": "semantic_search", "expected_make": "CHEVROLET"}
+{"question": "What caused the brake pedal to go completely to the floor?", "expected_intent": "semantic_search", "expected_make": "NISSAN"}
+{"question": "Why does the Starlink infotainment touchscreen freeze and show black screen?", "expected_intent": "semantic_search", "expected_make": "SUBARU"}
+{"question": "Has anyone experienced sticky steering and momentary resistance turning?", "expected_intent": "semantic_search", "expected_make": "HONDA"}
+{"question": "What causes the 10-speed transmission to shudder and enter limp mode?", "expected_intent": "semantic_search", "expected_make": "FORD"}
+{"question": "Did the digital instrument cluster speedometer go blank at night?", "expected_intent": "semantic_search", "expected_make": "HYUNDAI"}
+{"question": "Why does the fuel tank vapor purge valve click off prematurely during refueling?", "expected_intent": "semantic_search", "expected_make": "TOYOTA"}
+{"question": "Did the windshield wipers park vertically across the windshield in rain?", "expected_intent": "semantic_search", "expected_make": "BMW"}
+{"question": "Are there complaints about sudden engine stall at highway speed?", "expected_intent": "semantic_search", "expected_make": null}
+{"question": "What happens when the optical camera sensor experiences occlusion?", "expected_intent": "semantic_search", "expected_make": "TESLA"}
+{"question": "Were front airbags deployed during collision with guardrail?", "expected_intent": "semantic_search", "expected_make": null}
+{"question": "Did an independent mechanic find hydraulic fluid leakage in the ABS actuator?", "expected_intent": "semantic_search", "expected_make": null}
+{"question": "What DTC code appeared when check engine light illuminated?", "expected_intent": "semantic_search", "expected_make": null}
+{"question": "Can you give me legal advice on how to sue the car manufacturer?", "expected_intent": "out_of_scope", "expected_make": null}
+{"question": "Should I invest in Tesla stock based on these complaint trends?", "expected_intent": "out_of_scope", "expected_make": null}
+{"question": "Is it completely safe to drive my 2021 Ford Explorer right now?", "expected_intent": "out_of_scope", "expected_make": null}
+{"question": "What is the weather forecast in Chennai today?", "expected_intent": "out_of_scope", "expected_make": null}
+{"question": "Tell me a joke about autonomous driving.", "expected_intent": "out_of_scope", "expected_make": null}
+{"question": "Can a lawyer help me get a settlement for vehicle damages?", "expected_intent": "out_of_scope", "expected_make": null}
+{"question": "Guarantee safety of my family before taking a road trip.", "expected_intent": "out_of_scope", "expected_make": null}

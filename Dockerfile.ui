@@ -1,8 +1,74 @@
-# Placeholder Streamlit UI image. PHASE 8 finalizes it (PORT honored,
-# --server.address=0.0.0.0, slim deps only).
-FROM python:3.11-slim AS base
-RUN pip install --no-cache-dir uv
+# syntax=docker/dockerfile:1.4
+# Multi-stage Dockerfile for AutoVoice Streamlit UI Microservice
+
+FROM python:3.12-slim AS builder
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1
+
+WORKDIR /build
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip install uv==0.5.18
+
+COPY pyproject.toml .
+
+RUN uv venv /opt/venv
+ENV VIRTUAL_ENV=/opt/venv \
+    PATH="/opt/venv/bin:$PATH"
+
+RUN uv pip install --no-cache \
+    "streamlit==1.41.1" \
+    "pydantic==2.11.7" \
+    "pydantic-settings==2.10.1" \
+    "python-dotenv==1.0.1" \
+    "structlog==25.4.0" \
+    "pandas==2.2.3" \
+    "numpy==1.26.4" \
+    "pyarrow==18.1.0" \
+    "duckdb==1.1.3" \
+    "scikit-learn==1.5.2" \
+    "httpx==0.28.1"
+
+
+FROM python:3.12-slim AS runtime
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PATH="/opt/venv/bin:$PATH" \
+    PORT=8501
+
 WORKDIR /app
-COPY . .
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN groupadd -g 10001 autovoice && \
+    useradd -u 10001 -g autovoice -s /bin/bash -m autovoice
+
+COPY --from=builder --chown=autovoice:autovoice /opt/venv /opt/venv
+
+COPY --chown=autovoice:autovoice src/ src/
+COPY --chown=autovoice:autovoice models/ models/
+COPY --chown=autovoice:autovoice data/processed/ data/processed/
+COPY --chown=autovoice:autovoice reports/ reports/
+COPY --chown=autovoice:autovoice pyproject.toml .
+
+USER autovoice
+
 EXPOSE 8501
-CMD ["echo", "AutoVoice UI Dockerfile.ui finalized in Phase 8"]
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
+    CMD curl -f http://localhost:${PORT}/_stcore/health || exit 1
+
+CMD exec streamlit run src/autovoice/ui/app.py \
+    --server.port=${PORT} \
+    --server.address=0.0.0.0 \
+    --server.headless=true \
+    --server.enableCORS=false \
+    --server.enableXsrfProtection=false

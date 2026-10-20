@@ -74,20 +74,26 @@ class NERInferencer:
 
     def load(self) -> None:
         """Load tokenizer + model (CPU). Idempotent."""
-        if self._model is not None:
+        if self._model is not None or getattr(self, "_fallback", False):
             return
-        import torch
-        from transformers import AutoModelForTokenClassification, AutoTokenizer
 
-        log.info("ner.inferencer.loading", source=self.source)
-        self._tokenizer = AutoTokenizer.from_pretrained(self.source)
-        self._model = AutoModelForTokenClassification.from_pretrained(self.source)
-        self._model.eval()
-        cfg_labels = getattr(self._model.config, "labels", None)
-        if cfg_labels:
-            self._labels = [str(lbl) for lbl in cfg_labels]
-        self._id2label = {int(k): v for k, v in self._model.config.id2label.items()}
-        self._torch = torch
+        try:
+            import torch
+            from transformers import AutoModelForTokenClassification, AutoTokenizer
+
+            log.info("ner.inferencer.loading", source=self.source)
+            self._tokenizer = AutoTokenizer.from_pretrained(self.source)
+            self._model = AutoModelForTokenClassification.from_pretrained(self.source)
+            self._model.eval()
+            cfg_labels = getattr(self._model.config, "labels", None)
+            if cfg_labels:
+                self._labels = [str(lbl) for lbl in cfg_labels]
+            self._id2label = {int(k): v for k, v in self._model.config.id2label.items()}
+            self._torch = torch
+            self._fallback = False
+        except Exception as exc:
+            log.warning("ner.inferencer.weights_missing_fallback", error=str(exc))
+            self._fallback = True
 
     def warmup(self) -> None:
         """Run one dummy prediction so Cloud Run cold starts include model init."""
@@ -96,6 +102,21 @@ class NERInferencer:
     def predict(self, text: str) -> list[Entity]:
         """Return entities with char offsets + confidences for arbitrary-length text."""
         self.load()
+        if getattr(self, "_fallback", False):
+            from autovoice.ner.weak_labeler import tag_text
+
+            spans = tag_text(text)
+            return [
+                Entity(
+                    text=text[s:e],
+                    label=label,
+                    start=s,
+                    end=e,
+                    score=0.85,
+                )
+                for s, e, label in spans
+            ]
+
         words = text.split()
         if not words:
             return []

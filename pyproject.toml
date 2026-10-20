@@ -104,7 +104,7 @@ src = ["src", "tests", "scripts"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "UP", "B", "C4", "SIM", "D"]
-ignore = ["D203", "D213"]  # docstring style: use google convention
+ignore = ["D203", "D213", "E501", "B008"]  # D: google style; E501: formatter; B008: FastAPI Depends
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
@@ -112,6 +112,7 @@ convention = "google"
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["D"]       # no docstring requirement in tests
 "notebooks/*" = ["D"]
+"scripts/*" = ["D"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
