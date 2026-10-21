@@ -112,22 +112,37 @@ def render_annotated_text(text: str, entities: list[dict[str, Any]]) -> str:
 
 # Direct engine inference fallback
 @st.cache_resource
-def get_engines():
-    """Load local inference engines with graceful fallback."""
+def get_triage_engines():
+    """Load local NER and severity classification models."""
     from autovoice.classifier.infer import SeverityClassifierInferencer
     from autovoice.config import get_settings
     from autovoice.ner.infer import NERInferencer
-    from autovoice.rag.graph import AutoVoiceRAGAgent
-    from autovoice.rag.index import ComplaintVectorIndex
 
     settings = get_settings()
     ner = NERInferencer(source=settings.ner_model_path)
     clf = SeverityClassifierInferencer(model_dir=settings.clf_model_path)
+    return ner, clf
+
+
+@st.cache_resource
+def get_rag_engine():
+    """Load LangGraph RAG agent with vector index."""
+    from autovoice.config import get_settings
+    from autovoice.rag.graph import AutoVoiceRAGAgent
+    from autovoice.rag.index import ComplaintVectorIndex
+
+    settings = get_settings()
     try:
         index = ComplaintVectorIndex(persist_dir=settings.chroma_dir)
-        rag = AutoVoiceRAGAgent(index=index)
+        return AutoVoiceRAGAgent(index=index)
     except Exception:
-        rag = AutoVoiceRAGAgent()
+        return AutoVoiceRAGAgent()
+
+
+def get_engines():
+    """Load all engines for backward compatibility."""
+    ner, clf = get_triage_engines()
+    rag = get_rag_engine()
     return ner, clf, rag
 
 
@@ -260,7 +275,7 @@ def main() -> None:
 
         if st.button("🚀 Analyze Narrative", type="primary"):
             with st.spinner("Extracting entities and predicting severity..."):
-                ner_eng, clf_eng, _ = get_engines()
+                ner_eng, clf_eng = get_triage_engines()
                 ents = ner_eng.predict(complaint_input)
                 clf_res = clf_eng.predict(complaint_input)
 
@@ -370,7 +385,7 @@ def main() -> None:
 
         if st.button("🤖 Ask Agent", type="primary"):
             with st.spinner("Executing LangGraph agent workflow..."):
-                _, _, rag_agent = get_engines()
+                rag_agent = get_rag_engine()
                 res = rag_agent.run(user_query)
 
             # Output response
