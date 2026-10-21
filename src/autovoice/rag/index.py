@@ -50,9 +50,11 @@ class ComplaintVectorIndex:
         self,
         persist_dir: Path | str | None = None,
         embedder: EmbeddingEngine | None = None,
+        persist_directory: Path | str | None = None,
     ):
         """Initialize index with persistence directory and embedder."""
-        self.persist_dir = Path(persist_dir) if persist_dir else DEFAULT_CHROMA_DIR
+        target_dir = persist_dir or persist_directory or DEFAULT_CHROMA_DIR
+        self.persist_dir = Path(target_dir)
         self.embedder = embedder or EmbeddingEngine()
         self._client = None
         self._collection = None

@@ -123,8 +123,11 @@ def get_engines():
     settings = get_settings()
     ner = NERInferencer(source=settings.ner_model_path)
     clf = SeverityClassifierInferencer(model_dir=settings.clf_model_path)
-    index = ComplaintVectorIndex(persist_directory=settings.chroma_dir)
-    rag = AutoVoiceRAGAgent(index=index)
+    try:
+        index = ComplaintVectorIndex(persist_dir=settings.chroma_dir)
+        rag = AutoVoiceRAGAgent(index=index)
+    except Exception:
+        rag = AutoVoiceRAGAgent()
     return ner, clf, rag
 
 
