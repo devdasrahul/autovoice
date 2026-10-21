@@ -2,35 +2,78 @@
 
 AutoVoice is a full-stack NLP and GenAI platform on GCP that turns unstructured NHTSA vehicle complaints into structured defect intelligence and triage alerts.
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://autovoice.streamlit.app)
 [![CI](https://github.com/devdasrahul/autovoice/actions/workflows/ci.yml/badge.svg)](https://github.com/devdasrahul/autovoice/actions/workflows/ci.yml)
 [![Python 3.11](https://img.shields.io/badge/Python-3.11%20%7C%203.12-3776AB.svg?logo=python&logoColor=white)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Cloud Run](https://img.shields.io/badge/Deploy-GCP%20Cloud%20Run-4285F4.svg?logo=google-cloud&logoColor=white)](https://cloud.google.com/run)
 
-<!-- TODO: live demo URL at https://autovoice-ui-uc.a.run.app -->
-<!-- TODO: demo GIF at docs/demo.gif -->
+**🌐 Live Web Application:** [autovoice.streamlit.app](https://autovoice.streamlit.app)
 
-### Try it in 30 seconds
+---
 
-Pass representative complaint narratives directly to the triage engine or ask defect intelligence questions:
+### What is the Purpose of AutoVoice?
 
-1. **Component & Symptom Extraction:**
-   ```text
-   While driving at 65 mph on the highway, the steering wheel locked up and the vehicle lost power steering. Service engine warning light illuminated and vehicle stalled.
-   ```
-2. **High-Severity Safety Triage:**
-   ```text
-   The driver side airbag failed to deploy during a frontal collision at 40 mph, causing severe injuries and smoke from the steering column.
-   ```
-3. **Agentic RAG Query:**
-   ```text
-   Are there complaints about steering wheel lockup or loss of power steering on highway driving?
-   ```
+Every year, vehicle owners submit thousands of safety complaints to the **National Highway Traffic Safety Administration (NHTSA)**. These complaint narratives contain critical early signals of manufacturing defects, component failures, and safety hazards (e.g. sudden steering lockup, battery fires, airbag deployment failures, unintended braking).
+
+However, raw complaint filings are buried in free-text paragraphs filled with colloquial descriptions, abbreviations, and noise. Manual inspection cannot scale. 
+
+**AutoVoice solves this problem by providing automated, auditable automotive defect intelligence:**
+1. **Named Entity Recognition (NER):** Extracts exact vehicle subsystems (`COMPONENT`, e.g. *power steering assist*, *propulsion battery*, *airbag module*) and failure behaviors (`SYMPTOM`, e.g. *locked up*, *smoke from column*, *stalled at 65 mph*).
+2. **Safety Triage Risk Prediction:** Calibrated ML model classifies incoming complaints into `LOW`, `MEDIUM`, or `HIGH` severity risk without target narrative leakage.
+3. **Conversational Defect Intelligence (Agentic RAG):** Allows engineers, safety investigators, and fleet operators to ask natural language questions and receive syntheses grounded in verified NHTSA Complaint IDs (`[CMPLID: ...]`) with strict refusal guardrails for out-of-scope or legal queries.
+
+---
+
+### How to Use AutoVoice
+
+#### 1. Instant Live Web App (Zero Setup)
+Anyone can try AutoVoice immediately in a web browser with zero software installation:
+
+👉 **[Launch AutoVoice Web App](https://autovoice.streamlit.app)**
+
+- **Tab 1: 🔍 Analyze Complaint (Triage & NER):**
+  - Choose one of the pre-loaded real-world NHTSA sample complaints (Ford Explorer steering fault, Chevy Bolt battery smoke, Hyundai Sonata engine stall, Honda Civic brake assist) or paste any vehicle breakdown story.
+  - Click **Run Triage Analysis** to see instant highlighted component & symptom tags, safety severity level, and sublinear probability distribution.
+- **Tab 2: 💬 Ask NHTSA AI (RAG Agent):**
+  - Ask natural language questions like:
+    - *"Are there complaints about steering wheel lockup or loss of power steering on highway driving?"*
+    - *"What failure symptoms are reported for electric vehicle propulsion batteries?"*
+    - *"How many complaints are recorded for Ford?"*
+  - The LangGraph state machine routes intent, queries vector embeddings, enriches contexts with NER, checks relevance, and responds with verified `[CMPLID]` citations and an inspection trace.
+- **Tab 3: 📊 Verified Metrics & Architecture:**
+  - View the production evaluation benchmark scores, CPU latency profiles, and end-to-end data flow.
+
+#### 2. Local Setup for Developers & Data Scientists
+To clone and run AutoVoice locally:
+
+```bash
+# Clone the repository
+git clone https://github.com/devdasrahul/autovoice.git
+cd autovoice
+
+# Quick setup with standard pip:
+pip install -r requirements.txt
+streamlit run streamlit_app.py
+
+# Or modern workflow with uv:
+make install
+make run-ui
+```
+
+#### 3. FastAPI REST API (For Backend Integration)
+Run the high-performance inference API:
+```bash
+uvicorn autovoice.api.main:app --host 0.0.0.0 --port 8080
+```
+Visit `http://localhost:8080/docs` to test endpoints (`/v1/analyze`, `/v1/ask`, `/v1/predict/ner`, `/v1/predict/severity`).
 
 ---
 
 ## Table of Contents
 
+- [What is the Purpose of AutoVoice?](#what-is-the-purpose-of-autovoice)
+- [How to Use AutoVoice](#how-to-use-autovoice)
 - [Why This Project](#why-this-project)
 - [Key Results](#key-results)
 - [Features](#features)
@@ -448,6 +491,32 @@ AutoVoice is engineered to operate strictly within the **Google Cloud Platform A
 
 ### Deployment Walkthrough
 
+#### Option 1: Zero-Install Deployment via Google Cloud Shell (Recommended)
+You do not need to download or install the `gcloud` CLI or Docker on your local computer. You can deploy AutoVoice completely through your web browser using **Google Cloud Shell** (Google's free browser terminal with all cloud tools pre-installed and authenticated):
+
+1. **Open Google Cloud Console:**
+   Go to [https://console.cloud.google.com/](https://console.cloud.google.com/) and select or create your Google Cloud Project.
+2. **Activate Cloud Shell:**
+   Click the **Activate Cloud Shell** icon (`>_`) in the top-right toolbar of the Google Cloud Console. A terminal opens at the bottom of your browser window.
+3. **Clone & Deploy:**
+   Run the following commands in the Cloud Shell terminal:
+   ```bash
+   # Clone repository
+   git clone https://github.com/devdasrahul/autovoice.git
+   cd autovoice
+
+   # Make deployment script executable and launch
+   chmod +x ./scripts/deploy.sh
+   ./scripts/deploy.sh $GOOGLE_CLOUD_PROJECT
+   ```
+4. **Access Live Services:**
+   When the deployment finishes, the terminal outputs the live public HTTPS URLs for both services:
+   - **Streamlit UI:** `https://autovoice-ui-XXXXX-uc.a.run.app`
+   - **FastAPI Backend:** `https://autovoice-api-XXXXX-uc.a.run.app/docs`
+
+#### Option 2: Deployment via Local `gcloud` CLI
+If you already have `gcloud` installed locally:
+
 ```bash
 # 1. Set environment variables
 export PROJECT_ID="your-gcp-project-id"
@@ -459,10 +528,10 @@ chmod +x ./scripts/deploy.sh
 ./scripts/deploy.sh "${PROJECT_ID}"
 ```
 
-To decommission all resources and ensure zero lingering storage costs:
+### Complete Teardown (Zero Lingering Cost)
+To decommission all resources in one command and ensure zero ongoing costs:
 
 ```bash
-# One-command teardown
 gcloud run services delete autovoice-ui --region=us-central1 --quiet
 gcloud run services delete autovoice-api --region=us-central1 --quiet
 gcloud artifacts repositories delete autovoice-repo --location=us-central1 --quiet

@@ -58,7 +58,26 @@ gcloud billing budgets create \
 
 ## 4. Step-by-Step Deployment Walkthrough
 
-### Step 4.1: Authentication & Project Initialization
+### Recommended: Zero-Install Deployment via Google Cloud Shell (Web Browser)
+
+If you do not want to install `gcloud`, Docker, or Python on your local operating system, use **Google Cloud Shell** directly in your browser:
+
+1. Navigate to the [Google Cloud Console](https://console.cloud.google.com/).
+2. Click the **Activate Cloud Shell** icon (`>_`) located in the upper-right navigation bar.
+3. In the terminal session that appears, clone and launch:
+   ```bash
+   git clone https://github.com/devdasrahul/autovoice.git
+   cd autovoice
+   chmod +x ./scripts/deploy.sh
+   ./scripts/deploy.sh $GOOGLE_CLOUD_PROJECT
+   ```
+4. The deployment will automatically build both containers via Cloud Build and deploy them to Cloud Run in `us-central1` with `--min-instances 0`. Once complete, your public URLs will be displayed on screen.
+
+---
+
+### Alternative: Local Machine Deployment with `gcloud` CLI
+
+#### Step 4.1: Authentication & Project Initialization
 
 ```bash
 # 1. Login to Google Cloud
