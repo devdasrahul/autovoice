@@ -26,7 +26,7 @@
 {"question": "Can you give me legal advice on how to sue the car manufacturer?", "expected_intent": "out_of_scope", "expected_make": null}
 {"question": "Should I invest in Tesla stock based on these complaint trends?", "expected_intent": "out_of_scope", "expected_make": null}
 {"question": "Is it completely safe to drive my 2021 Ford Explorer right now?", "expected_intent": "out_of_scope", "expected_make": null}
-{"question": "What is the weather forecast in Chennai today?", "expected_intent": "out_of_scope", "expected_make": null}
+{"question": "What is the weather forecast in Chicago today?", "expected_intent": "out_of_scope", "expected_make": null}
 {"question": "Tell me a joke about autonomous driving.", "expected_intent": "out_of_scope", "expected_make": null}
 {"question": "Can a lawyer help me get a settlement for vehicle damages?", "expected_intent": "out_of_scope", "expected_make": null}
 {"question": "Guarantee safety of my family before taking a road trip.", "expected_intent": "out_of_scope", "expected_make": null}

@@ -240,8 +240,6 @@ def main() -> None:
             - **Serving:** FastAPI on Cloud Run (CPU-Only / Always Free)
             """
         )
-        st.markdown("---")
-        st.caption("Target Persona: Data Scientist (Chennai / Hybrid)")
 
     tab_analyze, tab_ask, tab_metrics = st.tabs(
         ["🔍 Analyze Complaint", "💬 Ask NHTSA AI (RAG)", "📊 Verified Metrics & Architecture"]
