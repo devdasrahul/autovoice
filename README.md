@@ -3,12 +3,13 @@
 AutoVoice is a full-stack NLP and GenAI platform on GCP that turns unstructured NHTSA vehicle complaints into structured defect intelligence and triage alerts.
 
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://autovoice.streamlit.app)
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-NER%20Model-orange)](docs/huggingface_guide.md)
 [![CI](https://github.com/devdasrahul/autovoice/actions/workflows/ci.yml/badge.svg)](https://github.com/devdasrahul/autovoice/actions/workflows/ci.yml)
 [![Python 3.11](https://img.shields.io/badge/Python-3.11%20%7C%203.12-3776AB.svg?logo=python&logoColor=white)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Cloud Run](https://img.shields.io/badge/Deploy-GCP%20Cloud%20Run-4285F4.svg?logo=google-cloud&logoColor=white)](https://cloud.google.com/run)
 
-**🌐 Live Web Application:** [autovoice.streamlit.app](https://autovoice.streamlit.app)
+**🌐 Live Web Application:** [autovoice.streamlit.app](https://autovoice.streamlit.app) | **🤗 Hugging Face Guide:** [`docs/huggingface_guide.md`](docs/huggingface_guide.md)
 
 ---
 
